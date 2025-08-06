@@ -38,15 +38,22 @@ export default function LPOForm() {
   const [useMRF, setUseMRF] = useState(false)
   const [selectedMRF, setSelectedMRF] = useState<string>('')
 
-  const handleItemChange = (
-    index: number,
-    field: keyof Item,
-    value: string | number
-  ) => {
-    const updatedItems = [...items]
-    updatedItems[index][field] = field === 'qty' || field === 'rate' ? Number(value) : value
-    setItems(updatedItems)
+ const handleItemChange = (
+  index: number,
+  field: keyof Item,
+  value: string | number
+) => {
+  const updatedItems = [...items]
+
+  if (field === 'qty' || field === 'rate') {
+    updatedItems[index][field] = Number(value) as Item[typeof field]
+  } else {
+    updatedItems[index][field] = value as Item[typeof field]
   }
+
+  setItems(updatedItems)
+}
+
 
   const addItem = () => {
     setItems([...items, { description: '', unit: '', qty: 0, rate: 0 }])
