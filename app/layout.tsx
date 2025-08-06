@@ -38,7 +38,12 @@ export default async function RootLayout({
   const cookieStore = await cookies()
   const defaultOpen = cookieStore.get("sidebar_state")?.value === "true"
   return (
-     <ClerkProvider>
+     <ClerkProvider
+     appearance={{
+        elements: {
+          footer: "hidden",
+        },}}
+     >
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
