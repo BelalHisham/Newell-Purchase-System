@@ -179,7 +179,7 @@ export default function LPOForm() {
     doc.text(supplierInfo.city, 14, 90)
     doc.text(supplierInfo.poBox, 14, 95)
     doc.text(`Kind Att : ${supplierInfo.contactPerson}`, 14, 100)
-    doc.text(`New well TRN : ${supplierInfo.trn}`, 120, 100)
+    doc.text(`Newell TRN : ${supplierInfo.trn}`, 120, 100)
     doc.text(`PROJECT : ${supplierInfo.project}`, 14, 105)
     doc.text("Kindly supply the following as per price agreed", 14, 110)
 
@@ -426,7 +426,7 @@ export default function LPOForm() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-1">TRN</label>
+              <label className="block text-sm font-medium mb-1">Newell TRN</label>
               <Input
                 value={supplierInfo.trn}
                 onChange={(e) => handleSupplierChange("trn", e.target.value)}
