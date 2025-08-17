@@ -108,7 +108,9 @@ export function MaterialRequestForm({ onSubmit, onCancel }: MaterialRequestFormP
             value={form.department}
             onValueChange={(value) => setForm((prev) => ({ ...prev, department: value }))}
           >
-            <SelectTrigger className="w-full" />
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select Department" />
+              </SelectTrigger>
             <SelectContent>
               <SelectItem value="Electrical">Electrical</SelectItem>
               <SelectItem value="Plumbing">Plumbing</SelectItem>
