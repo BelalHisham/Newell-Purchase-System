@@ -83,7 +83,7 @@ export function MaterialRequestManagement() {
             </TableHeader>
             <TableBody>
               {materialRequests.map((req) => (
-                <TableRow key={req.id}>
+                <TableRow key={req.mrfNumber}>
                   <TableCell>{req.mrfNumber}</TableCell>
                   <TableCell>{req.engineerName}</TableCell>
                   <TableCell>{req.projectName}</TableCell>
