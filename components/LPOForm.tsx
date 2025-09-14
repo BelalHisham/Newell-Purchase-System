@@ -475,7 +475,7 @@ export default function LPOForm() {
               </SelectTrigger>
               <SelectContent>
                 {materialRequests.map((mrf) => (
-                  <SelectItem key={mrf.id} value={mrf.mrfNumber}>
+                  <SelectItem key={mrf.mrfNumber} value={mrf.mrfNumber}>
                     {mrf.mrfNumber} — {mrf.projectName}
                   </SelectItem>
                 ))}
