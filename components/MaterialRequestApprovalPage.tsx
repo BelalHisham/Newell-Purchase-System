@@ -146,7 +146,7 @@ export default function MaterialRequestApprovalPage() {
                     </TableHeader>
                     <TableBody>
                       {filteredMRFs(tab).map((req) => (
-                        <TableRow key={req.id}>
+                        <TableRow key={req.mrf_id}>
                           <TableCell>{req.mrfNumber}</TableCell>
                           <TableCell>{req.engineerName}</TableCell>
                           <TableCell>{req.projectName}</TableCell>
@@ -164,7 +164,7 @@ export default function MaterialRequestApprovalPage() {
                             <Button
                               variant="destructive"
                               size="sm"
-                              onClick={() => handleDelete(req.id)}
+                              onClick={() => handleDelete(req.mrfNumber)}
                               title="Delete"
                             >
                               <Trash className="h-4 w-4" />
@@ -236,7 +236,7 @@ export default function MaterialRequestApprovalPage() {
                   </Table>
                 </div>
 
-                {selectedMRF.status === "Pending" && (
+                {selectedMRF.mrf_status === "Pending" && (
                   <div className="flex justify-end gap-2 mt-4">
                     <Button variant="destructive" onClick={handleReject}>
                       <XCircle className="h-4 w-4 mr-2" /> Reject
@@ -253,7 +253,7 @@ export default function MaterialRequestApprovalPage() {
                 <div className="flex justify-start mt-4">
                   <Button
                     variant="destructive"
-                    onClick={() => handleDelete(selectedMRF.id)}
+                    onClick={() => handleDelete(selectedMRF.mrfNumber)}
                   >
                     <Trash className="h-4 w-4 mr-2" /> Delete
                   </Button>
