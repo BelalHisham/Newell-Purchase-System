@@ -29,8 +29,9 @@ export async function POST(request: NextRequest) {
     }
 
     const response = await resend.emails.send({
-      from: 'Newell <purchase@newellmepco.com>',
+      from: 'Newell <mahmoud@purchase.newellmepco.com>',
       to: recipients,
+      replyTo: 'purchase.newellmepco.com',
       subject: `Material Request Approved: MRF #${mrfNumber}`,
       // html: emailHtml,
       react: EmailTemplate(
