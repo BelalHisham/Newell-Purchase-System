@@ -30,10 +30,17 @@ export function MaterialRequestManagement() {
   } = useLayout()
   const [dialogOpen, setDialogOpen] = useState(false)
 
-  const handleSubmit = (data: any) => {
-    addMaterialRequest(data)
-    setDialogOpen(false)
+ const handleSubmit = async (data: any) => {
+  try {
+    await addMaterialRequest(data);
+    setDialogOpen(false);
+    // Refresh the page
+    window.location.reload();
+  } catch (error) {
+    console.error("Error submitting material request:", error);
   }
+};
+
 
    const [isClient, setIsClient] = useState(false)
  

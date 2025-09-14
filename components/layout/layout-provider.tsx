@@ -17,7 +17,7 @@ export type MaterialRequest = {
   projectName: string;
   siteLocation: string;
   department: string;
-  status?: "Pending" | "Approved" | "Rejected";
+  mrf_status?: "Pending" | "Approved" | "Rejected";
   materials: {
     description: string;
     quantity: string;
@@ -105,7 +105,7 @@ export function LayoutProvider({ children }: { children: ReactNode }) {
       const res = await fetch("/api/material-request", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ mrfNumber: request.mrfNumber, status: request.status }),
+        body: JSON.stringify({ mrfNumber: request.mrfNumber, status: request.mrf_status }),
       });
       if (!res.ok) throw new Error("Failed to update material request");
       setMaterialRequests((prev) =>
@@ -178,7 +178,7 @@ export function LayoutProvider({ children }: { children: ReactNode }) {
       req.siteLocation,
       req.department,
       req.requestDate,
-      req.status || "Pending",
+      req.mrf_status || "Pending",
     ]);
     const csvContent = [headers, ...rows]
       .map((row) => row.map((field) => `"${field}"`).join(","))

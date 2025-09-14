@@ -67,17 +67,18 @@ export default function MaterialRequestApprovalPage() {
         }),
       });
 
-      updateMaterialRequest({ ...selectedMRF, status: "Approved" });
+      updateMaterialRequest({ ...selectedMRF, mrf_status: "Approved" });
     } catch (err) {
       console.error("Error sending email:", err);
     } finally {
       handleCloseDialog();
+      
     }
   };
 
   const handleReject = () => {
     if (!selectedMRF) return;
-    updateMaterialRequest({ ...selectedMRF, status: "Rejected" });
+    updateMaterialRequest({ ...selectedMRF, mrf_status: "Rejected" });
     handleCloseDialog();
   };
 
@@ -111,7 +112,7 @@ export default function MaterialRequestApprovalPage() {
   const filteredMRFs = (status: string | "all") =>
     status === "all"
       ? materialRequests
-      : materialRequests.filter((req) => req.status === status);
+      : materialRequests.filter((req) => req.mrf_status === status);
 
   return (
     isClient && (
