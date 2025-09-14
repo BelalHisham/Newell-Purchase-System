@@ -8,9 +8,9 @@ export default function Dashboard() {
 
   // Calculated stats
   const total = materialRequests.length
-  const pending = materialRequests.filter((r) => r.status === "Pending").length
-  const approved = materialRequests.filter((r) => r.status === "Approved").length
-  const rejected = materialRequests.filter((r) => r.status === "Rejected").length
+  const pending = materialRequests.filter((r) => r.mrf_status === "Pending").length
+  const approved = materialRequests.filter((r) => r.mrf_status === "Approved").length
+  const rejected = materialRequests.filter((r) => r.mrf_status === "Rejected").length
 
   const byDepartment: { [dept: string]: number } = {}
   materialRequests.forEach((req) => {
