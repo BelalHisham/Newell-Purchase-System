@@ -31,6 +31,8 @@ export type Supplier = {
   name: string;
   email: string;
   department: string;
+  location: string;
+  phoneNumber: string;
 };
 
 // --- Context Type ---
@@ -53,7 +55,7 @@ export function LayoutProvider({ children }: { children: ReactNode }) {
   const [materialRequests, setMaterialRequests] = useState<MaterialRequest[]>([]);
   const [suppliers, setSuppliers] = useState<Supplier[]>([]);
 
-  // --- Load material requests from API on mount ---
+  // --- Load Material Requests ---
   useEffect(() => {
     const fetchMaterialRequests = async () => {
       try {
@@ -68,10 +70,8 @@ export function LayoutProvider({ children }: { children: ReactNode }) {
     fetchMaterialRequests();
   }, []);
 
-  // --- Material Requests Methods ---
-  const addMaterialRequest = async (
-    request: Omit<MaterialRequest, "mrf_id" | "mrfNumber">
-  ) => {
+  // --- Material Request Methods ---
+  const addMaterialRequest = async (request: Omit<MaterialRequest, "mrf_id" | "mrfNumber">) => {
     try {
       const res = await fetch("/api/material-request", {
         method: "POST",
@@ -80,7 +80,6 @@ export function LayoutProvider({ children }: { children: ReactNode }) {
       });
       if (!res.ok) throw new Error("Failed to add material request");
       const data = await res.json();
-
       setMaterialRequests((prev) => [...prev, data.materialRequest]);
     } catch (error) {
       console.error("Error adding material request:", error);
@@ -95,7 +94,6 @@ export function LayoutProvider({ children }: { children: ReactNode }) {
         body: JSON.stringify({ mrfNumber }),
       });
       if (!res.ok) throw new Error("Failed to delete material request");
-
       setMaterialRequests((prev) => prev.filter((r) => r.mrfNumber !== mrfNumber));
     } catch (error) {
       console.error("Error deleting material request:", error);
@@ -110,7 +108,6 @@ export function LayoutProvider({ children }: { children: ReactNode }) {
         body: JSON.stringify({ mrfNumber: request.mrfNumber, status: request.status }),
       });
       if (!res.ok) throw new Error("Failed to update material request");
-
       setMaterialRequests((prev) =>
         prev.map((r) => (r.mrfNumber === request.mrfNumber ? request : r))
       );
@@ -120,13 +117,47 @@ export function LayoutProvider({ children }: { children: ReactNode }) {
   };
 
   // --- Supplier Methods ---
-  const addSupplier = (supplier: Omit<Supplier, "id">) => {
-    const newSupplier: Supplier = { ...supplier, id: crypto.randomUUID() };
-    setSuppliers((prev) => [...prev, newSupplier]);
+  useEffect(() => {
+    const fetchSuppliers = async () => {
+      try {
+        const res = await fetch("/api/supplier");
+        if (!res.ok) throw new Error("Failed to fetch suppliers");
+        const data = await res.json();
+        setSuppliers(data);
+      } catch (error) {
+        console.error("Error loading suppliers:", error);
+      }
+    };
+    fetchSuppliers();
+  }, []);
+
+  const addSupplier = async (supplier: Omit<Supplier, "id">) => {
+    try {
+      const res = await fetch("/api/supplier", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(supplier),
+      });
+      if (!res.ok) throw new Error("Failed to add supplier");
+      const data = await res.json();
+      setSuppliers((prev) => [...prev, data.supplier]);
+    } catch (error) {
+      console.error("Error adding supplier:", error);
+    }
   };
 
-  const deleteSupplier = (id: string) => {
-    setSuppliers((prev) => prev.filter((s) => s.id !== id));
+  const deleteSupplier = async (id: string) => {
+    try {
+      const res = await fetch("/api/supplier", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id }),
+      });
+      if (!res.ok) throw new Error("Failed to delete supplier");
+      setSuppliers((prev) => prev.filter((s) => s.id !== id));
+    } catch (error) {
+      console.error("Error deleting supplier:", error);
+    }
   };
 
   // --- CSV Export ---
@@ -140,7 +171,6 @@ export function LayoutProvider({ children }: { children: ReactNode }) {
       "Request Date",
       "Status",
     ];
-
     const rows = materialRequests.map((req) => [
       req.mrfNumber,
       req.engineerName,
@@ -150,14 +180,11 @@ export function LayoutProvider({ children }: { children: ReactNode }) {
       req.requestDate,
       req.status || "Pending",
     ]);
-
     const csvContent = [headers, ...rows]
       .map((row) => row.map((field) => `"${field}"`).join(","))
       .join("\n");
-
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
-
     const link = document.createElement("a");
     link.href = url;
     link.setAttribute("download", `material_requests_${Date.now()}.csv`);

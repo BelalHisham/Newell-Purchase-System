@@ -1,36 +1,37 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Card } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Plus } from "lucide-react"
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { useLayout } from "./layout/layout-provider"
+import { useState, useEffect } from "react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useLayout } from "./layout/layout-provider";
 
-const departments = ["All", "Electrical", "Plumbing", "HVAC", "Fire Fighting"]
+const departments = ["All", "Electrical", "Plumbing", "HVAC", "Fire Fighting"];
 
 export function SupplierManagement() {
-  const { suppliers, addSupplier, deleteSupplier } = useLayout()
-  const [dialogOpen, setDialogOpen] = useState(false)
+  const { suppliers, addSupplier, deleteSupplier } = useLayout();
+  const [dialogOpen, setDialogOpen] = useState(false);
   const [newSupplier, setNewSupplier] = useState({
     name: "",
     email: "",
     department: "Electrical",
-  })
+    location: "",
+    phoneNumber: "",
+  });
 
-  const handleAddSupplier = () => {
-    addSupplier(newSupplier)
-    setDialogOpen(false)
-    setNewSupplier({ name: "", email: "", department: "Electrical" })
-  }
+  const handleAddSupplier = async () => {
+    if (!newSupplier.name || !newSupplier.email) return;
+    await addSupplier(newSupplier); // API call
+    setDialogOpen(false);
+    setNewSupplier({ name: "", email: "", department: "Electrical", location: "", phoneNumber: "" });
+  };
 
   const filteredSuppliers = (department: string) =>
-    department === "All"
-      ? suppliers
-      : suppliers.filter((s) => s.department === department)
+    department === "All" ? suppliers : suppliers.filter((s) => s.department === department);
 
   return (
     <div className="space-y-6">
@@ -62,6 +63,8 @@ export function SupplierManagement() {
                     <th className="py-2">Name</th>
                     <th className="py-2">Email</th>
                     <th className="py-2">Department</th>
+                    <th className="py-2">Location</th>
+                    <th className="py-2">Phone</th>
                     <th className="py-2">Actions</th>
                   </tr>
                 </thead>
@@ -71,6 +74,8 @@ export function SupplierManagement() {
                       <td className="py-2">{s.name}</td>
                       <td className="py-2">{s.email}</td>
                       <td className="py-2">{s.department}</td>
+                      <td className="py-2">{s.location}</td>
+                      <td className="py-2">{s.phoneNumber}</td>
                       <td className="py-2">
                         <Button
                           variant="destructive"
@@ -84,7 +89,7 @@ export function SupplierManagement() {
                   ))}
                   {filteredSuppliers(dept).length === 0 && (
                     <tr>
-                      <td colSpan={4} className="py-4 text-center text-muted-foreground">
+                      <td colSpan={6} className="py-4 text-center text-muted-foreground">
                         No suppliers for {dept}
                       </td>
                     </tr>
@@ -103,7 +108,7 @@ export function SupplierManagement() {
           </DialogHeader>
           <div className="space-y-4">
             <div>
-              <Label>Name</Label>
+              <Label className="py-2">Name</Label>
               <Input
                 value={newSupplier.name}
                 onChange={(e) =>
@@ -112,7 +117,7 @@ export function SupplierManagement() {
               />
             </div>
             <div>
-              <Label>Email</Label>
+              <Label className="py-2">Email</Label>
               <Input
                 type="email"
                 value={newSupplier.email}
@@ -122,7 +127,7 @@ export function SupplierManagement() {
               />
             </div>
             <div>
-              <Label>Department</Label>
+              <Label className="py-2">Department</Label>
               <select
                 className="w-full border rounded px-3 py-2"
                 value={newSupplier.department}
@@ -137,6 +142,24 @@ export function SupplierManagement() {
                 ))}
               </select>
             </div>
+            <div>
+              <Label className="py-2">Location</Label>
+              <Input
+                value={newSupplier.location}
+                onChange={(e) =>
+                  setNewSupplier((prev) => ({ ...prev, location: e.target.value }))
+                }
+              />
+            </div>
+            <div>
+              <Label className="py-2">Phone Number</Label>
+              <Input
+                value={newSupplier.phoneNumber}
+                onChange={(e) =>
+                  setNewSupplier((prev) => ({ ...prev, phoneNumber: e.target.value }))
+                }
+              />
+            </div>
             <div className="flex justify-end pt-2">
               <Button onClick={handleAddSupplier} className="bg-sky-600 hover:bg-sky-700">
                 Add Supplier
@@ -146,5 +169,5 @@ export function SupplierManagement() {
         </DialogContent>
       </Dialog>
     </div>
-  )
+  );
 }
