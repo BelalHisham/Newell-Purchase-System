@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -10,7 +10,39 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useLayout } from "./layout/layout-provider";
 
-const departments = ["All", "Electrical", "Plumbing", "HVAC", "Fire Fighting"];
+// All supplier sub-departments
+const subDepartments = [
+  "Electrical - PVC Conduit And accessories",
+  "Electrical - GIBox",
+  "Electrical - Cables and single",
+  "Electrical - Core Wires",
+  "Electrical - Light fitting",
+  "Electrical - Switch Gear",
+  "Electrical - Switches and Sockets",
+  "Electrical - GI Conduits",
+  "Plumbing - Upvc pipes and fittings",
+  "Plumbing - Manhole covers",
+  "Plumbing - PPR and Pex pipes",
+  "Plumbing - Sound proof pipes & fittings",
+  "Plumbing - Insulation for sound proof",
+  "HVAC - AC Duct GI",
+  "HVAC - VcD and Dumbers",
+  "HVAC - AC Duct PI / phenolic",
+  "HVAC - Grilles and diffusers",
+  "HVAC - Duct insulation",
+  "HVAC - Duct connector",
+  "HVAC - Acoustic linear",
+  "HVAC - Flexible duct",
+  "HVAC - Copper pipes and fittings",
+  "HVAC - Insulation for copper pipes",
+  "Fire Fighting - Fire alarm system",
+  "Fire Fighting - GI conduits",
+  "Fire Fighting - Fire fighting material",
+  "Fire Fighting - Emergency / Exit lights",
+];
+
+// Extract unique main departments from sub-departments
+const mainDepartments = ["All", ...Array.from(new Set(subDepartments.map((d) => d.split(" - ")[0])))];
 
 export function SupplierManagement() {
   const { suppliers, addSupplier, deleteSupplier } = useLayout();
@@ -18,20 +50,23 @@ export function SupplierManagement() {
   const [newSupplier, setNewSupplier] = useState({
     name: "",
     email: "",
-    department: "Electrical",
+    department: subDepartments[0],
     location: "",
     phoneNumber: "",
   });
 
+  // Group suppliers by main department
+  const filteredSuppliers = (mainDept: string) =>
+    mainDept === "All"
+      ? suppliers
+      : suppliers.filter((s) => s.department.split(" - ")[0] === mainDept);
+
   const handleAddSupplier = async () => {
     if (!newSupplier.name || !newSupplier.email) return;
-    await addSupplier(newSupplier); // API call
+    await addSupplier(newSupplier);
     setDialogOpen(false);
-    setNewSupplier({ name: "", email: "", department: "Electrical", location: "", phoneNumber: "" });
+    setNewSupplier({ name: "", email: "", department: subDepartments[0], location: "", phoneNumber: "" });
   };
-
-  const filteredSuppliers = (department: string) =>
-    department === "All" ? suppliers : suppliers.filter((s) => s.department === department);
 
   return (
     <div className="space-y-6">
@@ -47,14 +82,14 @@ export function SupplierManagement() {
 
       <Tabs defaultValue="All" className="w-full">
         <TabsList className="flex flex-wrap justify-start overflow-x-auto">
-          {departments.map((dept) => (
+          {mainDepartments.map((dept) => (
             <TabsTrigger key={dept} value={dept}>
               {dept}
             </TabsTrigger>
           ))}
         </TabsList>
 
-        {departments.map((dept) => (
+        {mainDepartments.map((dept) => (
           <TabsContent key={dept} value={dept}>
             <Card className="p-4">
               <table className="w-full text-sm">
@@ -77,11 +112,7 @@ export function SupplierManagement() {
                       <td className="py-2">{s.location}</td>
                       <td className="py-2">{s.phoneNumber}</td>
                       <td className="py-2">
-                        <Button
-                          variant="destructive"
-                          size="sm"
-                          onClick={() => deleteSupplier(s.id)}
-                        >
+                        <Button variant="destructive" size="sm" onClick={() => deleteSupplier(s.id)}>
                           Delete
                         </Button>
                       </td>
@@ -101,6 +132,7 @@ export function SupplierManagement() {
         ))}
       </Tabs>
 
+      {/* Add Supplier Dialog */}
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogContent>
           <DialogHeader>
@@ -111,9 +143,7 @@ export function SupplierManagement() {
               <Label className="py-2">Name</Label>
               <Input
                 value={newSupplier.name}
-                onChange={(e) =>
-                  setNewSupplier((prev) => ({ ...prev, name: e.target.value }))
-                }
+                onChange={(e) => setNewSupplier((prev) => ({ ...prev, name: e.target.value }))}
               />
             </div>
             <div>
@@ -121,9 +151,7 @@ export function SupplierManagement() {
               <Input
                 type="email"
                 value={newSupplier.email}
-                onChange={(e) =>
-                  setNewSupplier((prev) => ({ ...prev, email: e.target.value }))
-                }
+                onChange={(e) => setNewSupplier((prev) => ({ ...prev, email: e.target.value }))}
               />
             </div>
             <div>
@@ -131,11 +159,9 @@ export function SupplierManagement() {
               <select
                 className="w-full border rounded px-3 py-2"
                 value={newSupplier.department}
-                onChange={(e) =>
-                  setNewSupplier((prev) => ({ ...prev, department: e.target.value }))
-                }
+                onChange={(e) => setNewSupplier((prev) => ({ ...prev, department: e.target.value }))}
               >
-                {departments.slice(1).map((dept) => (
+                {subDepartments.map((dept) => (
                   <option key={dept} value={dept}>
                     {dept}
                   </option>
@@ -146,18 +172,14 @@ export function SupplierManagement() {
               <Label className="py-2">Location</Label>
               <Input
                 value={newSupplier.location}
-                onChange={(e) =>
-                  setNewSupplier((prev) => ({ ...prev, location: e.target.value }))
-                }
+                onChange={(e) => setNewSupplier((prev) => ({ ...prev, location: e.target.value }))}
               />
             </div>
             <div>
               <Label className="py-2">Phone Number</Label>
               <Input
                 value={newSupplier.phoneNumber}
-                onChange={(e) =>
-                  setNewSupplier((prev) => ({ ...prev, phoneNumber: e.target.value }))
-                }
+                onChange={(e) => setNewSupplier((prev) => ({ ...prev, phoneNumber: e.target.value }))}
               />
             </div>
             <div className="flex justify-end pt-2">

@@ -380,12 +380,38 @@ export default function LPOForm() {
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select Department" />
               </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Electrical">Electrical</SelectItem>
-                <SelectItem value="Plumbing">Plumbing</SelectItem>
-                <SelectItem value="HVAC">HVAC</SelectItem>
-                <SelectItem value="Fire Fighting">Fire Fighting</SelectItem>
-              </SelectContent>
+                <SelectContent>
+              <SelectItem value="Electrical - PVC Conduit And accessories">Electrical - PVC Conduit And accessories</SelectItem>
+              <SelectItem value="Electrical - GIBox">Electrical - GIBox</SelectItem>
+              <SelectItem value="Electrical - Cables and single">Electrical - Cables and single</SelectItem>
+              <SelectItem value="Electrical - Core Wires">Electrical - Core Wires</SelectItem>
+              <SelectItem value="Electrical - Light fitting">Electrical - Light fitting</SelectItem>
+              <SelectItem value="Electrical - Switch Gear">Electrical - Switch Gear</SelectItem>
+              <SelectItem value="Electrical - Switches and Sockets">Electrical - Switches and Sockets</SelectItem>
+              <SelectItem value="Electrical - GI Conduits">Electrical - GI Conduits</SelectItem>
+
+              <SelectItem value="Plumbing - Upvc pipes and fittings">Plumbing - Upvc pipes and fittings</SelectItem>
+              <SelectItem value="Plumbing - Manhole covers">Plumbing - Manhole covers</SelectItem>
+              <SelectItem value="Plumbing - PPR and Pex pipes">Plumbing - PPR and Pex pipes</SelectItem>
+              <SelectItem value="Plumbing - Sound proof pipes & fittings">Plumbing - Sound proof pipes & fittings</SelectItem>
+              <SelectItem value="Plumbing - Insulation for sound proof">Plumbing - Insulation for sound proof</SelectItem>
+
+              <SelectItem value="HVAC - AC Duct GI">HVAC - AC Duct GI</SelectItem>
+              <SelectItem value="HVAC - VcD and Dumbers">HVAC - VcD and Dumbers</SelectItem>
+              <SelectItem value="HVAC - AC Duct PI / phenolic">HVAC - AC Duct PI / phenolic</SelectItem>
+              <SelectItem value="HVAC - Grilles and diffusers">HVAC - Grilles and diffusers</SelectItem>
+              <SelectItem value="HVAC - Duct insulation">HVAC - Duct insulation</SelectItem>
+              <SelectItem value="HVAC - Duct connector">HVAC - Duct connector</SelectItem>
+              <SelectItem value="HVAC - Acoustic linear">HVAC - Acoustic linear</SelectItem>
+              <SelectItem value="HVAC - Flexible duct">HVAC - Flexible duct</SelectItem>
+              <SelectItem value="HVAC - Copper pipes and fittings">HVAC - Copper pipes and fittings</SelectItem>
+              <SelectItem value="HVAC - Insulation for copper pipes">HVAC - Insulation for copper pipes</SelectItem>
+
+              <SelectItem value="Fire Fighting - Fire alarm system">Fire Fighting - Fire alarm system</SelectItem>
+              <SelectItem value="Fire Fighting - GI conduits">Fire Fighting - GI conduits</SelectItem>
+              <SelectItem value="Fire Fighting - Fier fighting material">Fire Fighting - Fier fighting material</SelectItem>
+              <SelectItem value="Fire Fighting - Emergncy / Exit lights">Fire Fighting - Emergncy / Exit lights</SelectItem>
+            </SelectContent>
             </Select>
           </div>
         </div>
