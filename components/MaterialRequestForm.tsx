@@ -152,7 +152,7 @@ export function MaterialRequestForm({ onSubmit, onCancel }: MaterialRequestFormP
 
       {/* Materials Section */}
       <div>
-        <Label className="mt-4">Materials</Label>
+        <Label className="mt-4 py-2">Materials</Label>
         <div className="space-y-4">
           {materials.map((item, index) => (
             <div
@@ -160,10 +160,10 @@ export function MaterialRequestForm({ onSubmit, onCancel }: MaterialRequestFormP
               className="grid grid-cols-1 gap-4 md:grid-cols-4 md:gap-5"
             >
               <Input
-                placeholder="Description"
+                placeholder={`Material ${index + 1}`}
                 value={item.description}
                 onChange={(e) => handleMaterialChange(index, "description", e.target.value)}
-                className="w-full min-w-0"
+                className={`w-full min-w-0 ${index > 0 ? "mt-6 md:mt-0" : ""}`}
               />
               <Input
                 placeholder="Quantity"
