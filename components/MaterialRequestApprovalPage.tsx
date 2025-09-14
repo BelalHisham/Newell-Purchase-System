@@ -152,7 +152,7 @@ export default function MaterialRequestApprovalPage() {
                           <TableCell>{req.projectName}</TableCell>
                           <TableCell>{req.department}</TableCell>
                           <TableCell>{req.requestDate}</TableCell>
-                          <TableCell>{renderStatusBadge(req.status)}</TableCell>
+                          <TableCell>{renderStatusBadge(req.mrf_status)}</TableCell>
                           <TableCell className="flex gap-2">
                             <Button
                               variant="ghost"

@@ -83,7 +83,7 @@ export function MaterialRequestManagement() {
                   <TableCell>{req.siteLocation}</TableCell>
                   <TableCell>{req.department}</TableCell>
                   <TableCell>{req.requestDate}</TableCell>
-                  <TableCell>{req.status}</TableCell>
+                  <TableCell>{req.mrf_status}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

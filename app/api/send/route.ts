@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
     }
 
     const response = await resend.emails.send({
-      from: 'Newell <belal@purchase.newellmepco.com>',
+      from: 'Newell <purchase@newellmepco.com>',
       to: recipients,
       subject: `Material Request Approved: MRF #${mrfNumber}`,
       // html: emailHtml,
