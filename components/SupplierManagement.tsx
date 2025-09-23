@@ -39,6 +39,7 @@ const subDepartments = [
   "Fire Fighting - GI conduits",
   "Fire Fighting - Fire fighting material",
   "Fire Fighting - Emergency / Exit lights",
+  "Hardware - Any",
 ];
 
 // Extract unique main departments from sub-departments

@@ -29,10 +29,10 @@ export async function POST(request: NextRequest) {
     }
 
     const response = await resend.emails.send({
-      from: 'Newell <mahmoud@purchase.newellmepco.com>',
+      from: 'Newell <reply-only@purchase.newellmepco.com>',
       to: recipients,
       replyTo: 'purchase@newellmepco.com',
-      subject: `Material Request Approved: MRF #${mrfNumber}`,
+      subject: `Material Request #${mrfNumber}`,
       // html: emailHtml,
       react: EmailTemplate(
         {

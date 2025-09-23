@@ -25,12 +25,14 @@ interface MaterialRequestFormProps {
 }
 
 export function MaterialRequestForm({ onSubmit, onCancel }: MaterialRequestFormProps) {
+  const [IsSubmit, setIsSubmit] = useState(false);
   const [form, setForm] = useState({
     requestDate: new Date().toISOString().slice(0, 10),
     engineerName: "",
     projectName: "",
     siteLocation: "",
-    department: "Electrical",
+    department: "",
+    subdepartment: "",
   });
 
   const [materials, setMaterials] = useState<MaterialItem[]>([
@@ -55,6 +57,7 @@ export function MaterialRequestForm({ onSubmit, onCancel }: MaterialRequestFormP
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSubmit({ ...form, materials });
+    setIsSubmit(true);
   };
 
   return (
@@ -76,22 +79,24 @@ export function MaterialRequestForm({ onSubmit, onCancel }: MaterialRequestFormP
         </div>
 
         <div className="w-full min-w-0">
-          <Label className="my-2">Engineer Name</Label>
+          <Label className="my-2">Engineer Name <span className="text-red-700">*</span> </Label>
           <Input
             name="engineerName"
             value={form.engineerName}
             onChange={handleChange}
             className="w-full"
+            required
           />
         </div>
 
         <div className="w-full min-w-0">
-          <Label className="my-2">Project Name</Label>
+          <Label className="my-2">Project Name <span className="text-red-700">*</span> </Label>
           <Input
             name="projectName"
             value={form.projectName}
             onChange={handleChange}
             className="w-full"
+            required
           />
         </div>
 
@@ -106,15 +111,38 @@ export function MaterialRequestForm({ onSubmit, onCancel }: MaterialRequestFormP
         </div>
 
         <div className="w-full min-w-0">
-          <Label className="my-2">Department</Label>
+          <Label className="my-2">Department <span className="text-red-700">*</span> </Label>
           <Select
             value={form.department}
             onValueChange={(value) => setForm((prev) => ({ ...prev, department: value }))}
+            required
           >
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Select Department" />
             </SelectTrigger>
             <SelectContent>
+              <SelectItem value="Electrical">Electrical</SelectItem>
+              <SelectItem value="Plumbing">Plumbing</SelectItem>
+              <SelectItem value="HVAC">HVAC</SelectItem>
+              <SelectItem value="Fire Fighting">Fire Fighting</SelectItem>
+              <SelectItem value="Hardware">Hardware</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="w-full min-w-0">
+          <Label className="my-2">Subdepartment <span className="text-red-700">*</span> </Label>
+          <Select
+            value={form.subdepartment}
+            onValueChange={(value) => setForm((prev) => ({ ...prev, subdepartment: value }))}
+            disabled={!form.department}
+            required
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select Subdepartment" />
+            </SelectTrigger>
+            <SelectContent>
+              {
+                form.department === "Electrical" && <>  
               <SelectItem value="Electrical - PVC Conduit And accessories">Electrical - PVC Conduit And accessories</SelectItem>
               <SelectItem value="Electrical - GIBox">Electrical - GIBox</SelectItem>
               <SelectItem value="Electrical - Cables and single">Electrical - Cables and single</SelectItem>
@@ -123,14 +151,22 @@ export function MaterialRequestForm({ onSubmit, onCancel }: MaterialRequestFormP
               <SelectItem value="Electrical - Switch Gear">Electrical - Switch Gear</SelectItem>
               <SelectItem value="Electrical - Switches and Sockets">Electrical - Switches and Sockets</SelectItem>
               <SelectItem value="Electrical - GI Conduits">Electrical - GI Conduits</SelectItem>
+                </>
+              }
 
-              <SelectItem value="Plumbing - Upvc pipes and fittings">Plumbing - Upvc pipes and fittings</SelectItem>
+              {
+                form.department === "Plumbing" && <>
+                <SelectItem value="Plumbing - Upvc pipes and fittings">Plumbing - Upvc pipes and fittings</SelectItem>
               <SelectItem value="Plumbing - Manhole covers">Plumbing - Manhole covers</SelectItem>
               <SelectItem value="Plumbing - PPR and Pex pipes">Plumbing - PPR and Pex pipes</SelectItem>
               <SelectItem value="Plumbing - Sound proof pipes & fittings">Plumbing - Sound proof pipes & fittings</SelectItem>
               <SelectItem value="Plumbing - Insulation for sound proof">Plumbing - Insulation for sound proof</SelectItem>
+                </>
+              }
 
-              <SelectItem value="HVAC - AC Duct GI">HVAC - AC Duct GI</SelectItem>
+              {
+                form.department === "HVAC" && <>
+                 <SelectItem value="HVAC - AC Duct GI">HVAC - AC Duct GI</SelectItem>
               <SelectItem value="HVAC - VcD and Dumbers">HVAC - VcD and Dumbers</SelectItem>
               <SelectItem value="HVAC - AC Duct PI / phenolic">HVAC - AC Duct PI / phenolic</SelectItem>
               <SelectItem value="HVAC - Grilles and diffusers">HVAC - Grilles and diffusers</SelectItem>
@@ -140,11 +176,23 @@ export function MaterialRequestForm({ onSubmit, onCancel }: MaterialRequestFormP
               <SelectItem value="HVAC - Flexible duct">HVAC - Flexible duct</SelectItem>
               <SelectItem value="HVAC - Copper pipes and fittings">HVAC - Copper pipes and fittings</SelectItem>
               <SelectItem value="HVAC - Insulation for copper pipes">HVAC - Insulation for copper pipes</SelectItem>
+                </>
+              }
 
+              { form.department === "Fire Fighting" && <>
+               
               <SelectItem value="Fire Fighting - Fire alarm system">Fire Fighting - Fire alarm system</SelectItem>
               <SelectItem value="Fire Fighting - GI conduits">Fire Fighting - GI conduits</SelectItem>
               <SelectItem value="Fire Fighting - Fier fighting material">Fire Fighting - Fier fighting material</SelectItem>
               <SelectItem value="Fire Fighting - Emergncy / Exit lights">Fire Fighting - Emergncy / Exit lights</SelectItem>
+                </>
+              }
+              { form.department === "Hardware" && <>
+               
+              <SelectItem value="Hardware - ">Hardware - Any</SelectItem>
+                </>
+              }
+
             </SelectContent>
           </Select>
         </div>
@@ -152,7 +200,7 @@ export function MaterialRequestForm({ onSubmit, onCancel }: MaterialRequestFormP
 
       {/* Materials Section */}
       <div>
-        <Label className="mt-4 py-2">Materials</Label>
+        <Label className="mt-4 py-2">Materials<span className="text-red-700">*</span> </Label>
         <div className="space-y-4">
           {materials.map((item, index) => (
             <div
@@ -164,6 +212,7 @@ export function MaterialRequestForm({ onSubmit, onCancel }: MaterialRequestFormP
                 value={item.description}
                 onChange={(e) => handleMaterialChange(index, "description", e.target.value)}
                 className={`w-full min-w-0 ${index > 0 ? "mt-6 md:mt-0" : ""}`}
+                required
               />
               <Input
                 placeholder="Quantity"
@@ -171,6 +220,7 @@ export function MaterialRequestForm({ onSubmit, onCancel }: MaterialRequestFormP
                 value={item.quantity}
                 onChange={(e) => handleMaterialChange(index, "quantity", e.target.value)}
                 className="w-full min-w-0"
+                required
               />
               <Input
                 placeholder="Unit"
@@ -202,8 +252,11 @@ export function MaterialRequestForm({ onSubmit, onCancel }: MaterialRequestFormP
         <Button type="button" variant="outline" onClick={onCancel} className="w-full md:w-auto">
           Cancel
         </Button>
-        <Button type="submit" className="w-full md:w-auto bg-yellow-600 hover:bg-yellow-700">
-          Submit Request
+        <Button disabled={IsSubmit} type="submit" className="w-full md:w-auto bg-yellow-600 hover:bg-yellow-700">
+          {
+            IsSubmit ? "Submitting..." :  "Submit Request"
+          }
+          
         </Button>
       </div>
     </form>

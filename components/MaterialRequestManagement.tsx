@@ -39,6 +39,7 @@ export function MaterialRequestManagement() {
   } catch (error) {
     console.error("Error submitting material request:", error);
   }
+
 };
 
 
@@ -102,6 +103,7 @@ export function MaterialRequestManagement() {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>New Material Request</DialogTitle>
+            <p className="text-gray-500 italic text-sm ">Fill all the fields with <span className="text-red-700">*</span> to avoid request rejection </p>
           </DialogHeader>
           <MaterialRequestForm
             onSubmit={handleSubmit}

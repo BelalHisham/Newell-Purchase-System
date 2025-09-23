@@ -28,21 +28,21 @@ export function EmailTemplate({
 }: EmailTemplateProps) {
   return (
     <div style={{ fontFamily: "Arial, sans-serif", lineHeight: "1.5", color: "#333" }}>
-      <h2>Material Request Approval Notification</h2>
+      <h2>Material Request Notification</h2>
       <p>
         Dear Supplier,
       </p>
       <p>
-        We have a matrial request that has been approved and is ready for processing. Please find the details below:
+        We have a new matrial request please provide a quotation. Find the details below:
       </p>
-      <ul>
+      {/* <ul>
         <li><strong>MRF Number:</strong> {mrfNumber}</li>
         <li><strong>Engineer:</strong> {engineerName}</li>
         <li><strong>Project:</strong> {projectName}</li>
         <li><strong>Site Location:</strong> {siteLocation}</li>
         <li><strong>Department:</strong> {department}</li>
         <li><strong>Request Date:</strong> {requestDate}</li>
-      </ul>
+      </ul> */}
 
       <h3>Materials Requested:</h3>
       <table
@@ -76,10 +76,12 @@ export function EmailTemplate({
       </table>
 
       <p>
-        Please prepare and supply the materials as soon as possible.
+        Please reply to this email with the quotation for the materials as soon as possible.
+        <br/> Thank you for your prompt attention to this request.
       </p>
 
-      <p>Best regards,<br />Newell MEP Team</p>
+      <p>Best regards,</p>
+      <p className="font-bold "> Newell MEP Purchase Team</p>
     </div>
   );
 }
