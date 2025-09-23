@@ -162,7 +162,7 @@ export function SupplierManagement() {
                 value={newSupplier.department}
                 onChange={(e) => setNewSupplier((prev) => ({ ...prev, department: e.target.value }))}
               >
-                {subDepartments.map((dept) => (
+                {mainDepartments.map((dept) => (
                   <option key={dept} value={dept}>
                     {dept}
                   </option>
