@@ -57,7 +57,7 @@ export async function POST(req: Request) {
     const year = now.getFullYear().toString().slice(-2);
     const month = (now.getMonth() + 1).toString().padStart(2, "0");
     const serial = Math.floor(Math.random() * 10000).toString().padStart(4, "0");
-    const mrfNumber = `MRF-${year}${month}-${serial}`;
+    const mrfNumber = `MRF-${month}${year}-${serial}`;
 
     const mutation = `
       mutation CreateMaterialRequest {
