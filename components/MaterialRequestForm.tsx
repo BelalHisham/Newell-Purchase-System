@@ -63,7 +63,7 @@ export function MaterialRequestForm({ onSubmit, onCancel }: MaterialRequestFormP
   return (
     <form
       onSubmit={handleSubmit}
-      className="space-y-6 h-[80vh] md:h-full overflow-y-auto p-4"
+      className="space-y-6 h-[80vh] md:h-[60vh] overflow-y-auto p-4"
     >
       {/* General Info */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
