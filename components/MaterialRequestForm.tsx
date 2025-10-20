@@ -129,7 +129,8 @@ export function MaterialRequestForm({ onSubmit, onCancel }: MaterialRequestFormP
             </SelectContent>
           </Select>
         </div>
-        <div className="w-full min-w-0">
+        {/* Sub departments */}
+        {/* <div className="w-full min-w-0">
           <Label className="my-2">Subdepartment <span className="text-red-700">*</span> </Label>
           <Select
             value={form.subdepartment}
@@ -195,7 +196,7 @@ export function MaterialRequestForm({ onSubmit, onCancel }: MaterialRequestFormP
 
             </SelectContent>
           </Select>
-        </div>
+        </div> */}
       </div>
 
       {/* Materials Section */}
