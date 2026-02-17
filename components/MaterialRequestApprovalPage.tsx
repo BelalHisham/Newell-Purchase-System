@@ -246,7 +246,7 @@ export default function MaterialRequestApprovalPage() {
                       className="bg-green-600 hover:bg-green-700"
                       onClick={handleApprove}
                     >
-                      <CheckCircle className="h-4 w-4 mr-2" /> Approve
+                      <CheckCircle className="h-4 w-4 mr-2" /> Request quotation
                     </Button>
                   </div>
                 )}

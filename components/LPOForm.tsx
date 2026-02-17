@@ -146,7 +146,7 @@ export default function LPOForm() {
 
     // Add logo
     try {
-      const logo = await fetch("/newell-logo.png")
+      const logo = await fetch("/newell-logo.PNG")
         .then((res) => res.blob())
         .then(
           (blob) =>
@@ -380,7 +380,14 @@ export default function LPOForm() {
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select Department" />
               </SelectTrigger>
-                <SelectContent>
+                       <SelectContent>
+              <SelectItem value="Electrical">Electrical</SelectItem>
+              <SelectItem value="Plumbing">Plumbing</SelectItem>
+              <SelectItem value="HVAC">HVAC</SelectItem>
+              <SelectItem value="Fire Fighting">Fire Fighting</SelectItem>
+              <SelectItem value="Hardware">Hardware</SelectItem>
+            </SelectContent>
+                {/* <SelectContent>
               <SelectItem value="Electrical - PVC Conduit And accessories">Electrical - PVC Conduit And accessories</SelectItem>
               <SelectItem value="Electrical - GIBox">Electrical - GIBox</SelectItem>
               <SelectItem value="Electrical - Cables and single">Electrical - Cables and single</SelectItem>
@@ -411,7 +418,7 @@ export default function LPOForm() {
               <SelectItem value="Fire Fighting - GI conduits">Fire Fighting - GI conduits</SelectItem>
               <SelectItem value="Fire Fighting - Fier fighting material">Fire Fighting - Fier fighting material</SelectItem>
               <SelectItem value="Fire Fighting - Emergncy / Exit lights">Fire Fighting - Emergncy / Exit lights</SelectItem>
-            </SelectContent>
+            </SelectContent> */}
             </Select>
           </div>
         </div>
