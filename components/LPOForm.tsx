@@ -124,52 +124,75 @@ export default function LPOForm() {
   const exportPDF = async () => {
     const doc = new jsPDF()
 
-    // Add company header with simplified bilingual approach
-    doc.setFontSize(12)
-    doc.setFont("helvetica", "bold")
-    doc.text("Newell Electromechanical works LLC", 14, 15)
+   // Header layout: logo + text side by side, centered as a block
+// A4 width = 210mm
+// Block: logo (30mm wide) + gap (5mm) + text (~70mm wide) = 105mm total
+// Start x = (210 - 105) / 2 = 52.5mm
 
-    doc.setFontSize(12)
-    doc.setFont("helvetica", "normal")
-    doc.text("Newell Electromechanical Works LLC", 200, 15, { align: "right" })
-    doc.setFontSize(10)
-    doc.text("P.O Box: BB593 Dubai,U.A.E", 200, 20, { align: "right" })
-    doc.text("Tel.: +971 4 8843367", 200, 25, { align: "right" })
-    doc.text("Email : info@newellmepco.com", 200, 30, { align: "right" })
+const logoWidth = 30
+const logoHeight = 25
+const gap = 5
+const textBlockWidth = 70
+const totalWidth = logoWidth + gap + textBlockWidth
+const startX = (210 - totalWidth) / 2  // 52.5 — left edge of the block
 
-    // Company details (left side)
-    doc.setFont("helvetica", "normal")
-    doc.setFontSize(10)
-    doc.text("P.O Box: BB593 Dubai,U.A.E", 14, 20)
-    doc.text("Tel.: +971 4 8843367", 14, 25)
-    doc.text("Email : info@newellmepco.com", 14, 30)
+const logoX = startX
+const logoY = 8
+const textX = startX + logoWidth + gap  // 87.5 — left edge of text block
 
-    // Add logo
-    try {
-      const logo = await fetch("/newell-logo.PNG")
-        .then((res) => res.blob())
-        .then(
-          (blob) =>
-            new Promise<string>((resolve) => {
-              const reader = new FileReader()
-              reader.onloadend = () => resolve(reader.result as string)
-              reader.readAsDataURL(blob)
-            }),
-        )
-      // doc.addImage(logo, "PNG", 85, 10, 30, 20)
-      doc.addImage(logo, "PNG", 90, 10, 30, 25)
-    } catch (error) {
-      console.log("Logo not found, continuing without it")
-    }
+// Add logo
+try {
+  const logo = await fetch("/newell-logo.PNG")
+    .then((res) => res.blob())
+    .then(
+      (blob) =>
+        new Promise<string>((resolve) => {
+          const reader = new FileReader()
+          reader.onloadend = () => resolve(reader.result as string)
+          reader.readAsDataURL(blob)
+        }),
+    )
+  doc.addImage(logo, "PNG", logoX, logoY, logoWidth, logoHeight)
+} catch (error) {
+  console.log("Logo not found, continuing without it")
+}
+
+// Company text — left-aligned to textX, vertically centered with logo
+// Logo spans y: 8 → 33. Text block has 4 lines ~5mm apart.
+// Total text height ≈ 15mm → start at y = 8 + (25 - 15) / 2 = 13
+const textStartY = logoY + (logoHeight - 15) / 2  // vertically center text with logo
+
+doc.setFontSize(12)
+doc.setFont("helvetica", "bold")
+doc.text("Newell Electromechanical Works LLC", textX, textStartY, { align: "left" })
+
+doc.setFontSize(9)
+doc.setFont("helvetica", "normal")
+doc.text("P.O Box: 88593 Dubai, U.A.E", textX, textStartY + 6, { align: "left" })
+doc.text("Tel.: +971 4 8843367", textX, textStartY + 11, { align: "left" })
+doc.text("Email: info@newellmepco.com", textX, textStartY + 16, { align: "left" })
+
+
+
 
     // Add dark blue stripe
     doc.setFillColor(41, 84, 115) // Dark blue color
-    doc.rect(14, 45, 182, 3, "F")
+    doc.rect(14, 35, 182, 3, "F")
 
-    doc.setFontSize(11)
-    doc.text(currentDate, 14, 60)
-    doc.text("LPO", 160, 60)
-    doc.text(`LPO NO : ${lpoNumber}`, 14, 70)
+    
+doc.setFontSize(11)
+doc.text(currentDate, 14, 60)
+
+// LPO - bold and centered
+doc.setFont("helvetica", "bold")
+doc.setFontSize(14)  // slightly larger so it stands out as a title
+doc.text("LPO", 105, 53, { align: "center" })  // y=53 puts it just above the other text
+
+// Reset font back to normal for the lines below
+doc.setFont("helvetica", "normal")
+doc.setFontSize(11)
+
+doc.text(`LPO NO : ${lpoNumber}`, 14, 70)
 
     // Supplier information (using form data)
     doc.setFontSize(10)
