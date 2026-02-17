@@ -219,7 +219,7 @@ doc.text(`LPO NO : ${lpoNumber}`, 14, 70)
       item.rate.toFixed(2),
       (item.qty * item.rate).toFixed(2),
     ])
-
+    
     autoTable(doc, {
       startY: 125,
       head: [["SC NO", "DESCRIPTION", "UNIT", "QTY", "RATE", "TOTAL AMOUNT"]],
@@ -231,21 +231,26 @@ doc.text(`LPO NO : ${lpoNumber}`, 14, 70)
         fontStyle: "bold",
         fontSize: 9,
         halign: "center",
+        lineColor: [0, 0, 0],  // black header borders
+        lineWidth: 0.3,
       },
       bodyStyles: {
         fontSize: 8,
-        cellPadding: 1.5, // Reduced padding to fit more content
+        cellPadding: 1.5,
+        textColor: [0, 0, 0],  // black text
+        lineColor: [0, 0, 0],  // black grid lines
+        lineWidth: 0.3,
       },
       columnStyles: {
-        0: { halign: "center", cellWidth: 12 }, // Reduced width
-        1: { halign: "left", cellWidth: 85 }, // Increased description width
-        2: { halign: "center", cellWidth: 18 }, // Reduced width
-        3: { halign: "center", cellWidth: 18 }, // Reduced width
-        4: { halign: "right", cellWidth: 22 }, // Reduced width
-        5: { halign: "right", cellWidth: 28 }, // Reduced width
+        0: { halign: "center", cellWidth: 12 },
+        1: { halign: "left", cellWidth: 85 },
+        2: { halign: "center", cellWidth: 18 },
+        3: { halign: "center", cellWidth: 18 },
+        4: { halign: "right", cellWidth: 22 },
+        5: { halign: "right", cellWidth: 28 },
       },
       showHead: "everyPage",
-      margin: { top: 20, bottom: 60 }, // Leave space for footer content
+      margin: { top: 20, bottom: 60 },
     })
 
     const finalY = (doc as any).lastAutoTable.finalY
